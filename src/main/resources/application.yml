@@ -4,3 +4,12 @@ spring:
     username: ${USERNAME}
     password: ${PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+    show-sql: false         # 실행되는 SQL을 콘솔에 출력 (개발용)
+    defer-datasource-initialization: true
