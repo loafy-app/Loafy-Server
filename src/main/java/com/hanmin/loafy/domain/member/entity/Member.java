@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // DB의 auto increment의 역할
+    @Column(name = "id") // DB의 id column과 매핑
     private Long id;
 
     @Column(name = "email", nullable = false, unique = true)
