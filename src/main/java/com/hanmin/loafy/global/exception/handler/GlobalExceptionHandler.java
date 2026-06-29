@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
     // 애플리케이션에서 발생하는 커스텀 예외를 처리
     @ExceptionHandler(CustomException.class)
     protected ResponseEntity<@NonNull CustomResponse<Void>> handleCustomException(CustomException ex) {
-        log.warn("[ CustomException]: {}", ex.getBaseErrorCode().getMessage());
+        log.warn("[ CustomException ]: {}", ex.getBaseErrorCode().getMessage());
         return ResponseEntity.status(ex.getBaseErrorCode().getHttpStatus()).body(ex.getBaseErrorCode().getErrorResponse());
     }
 
