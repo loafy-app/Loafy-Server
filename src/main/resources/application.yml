@@ -13,3 +13,9 @@ spring:
         format_sql: true
     show-sql: false         # 실행되는 SQL을 콘솔에 출력 (개발용)
     defer-datasource-initialization: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  token:
+    access-expiration-time: ${ACCESS_EXPIRATION_TIME}
+    refresh-expiration-time: ${REFRESH_EXPIRATION_TIME}
