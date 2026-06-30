@@ -1,4 +1,4 @@
-package com.hanmin.loafy.global.Entity;
+package com.hanmin.loafy.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

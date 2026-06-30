@@ -1,7 +1,7 @@
 package com.hanmin.loafy.domain.member.entity;
 
-import com.hanmin.loafy.global.Entity.BaseEntity;
-import com.hanmin.loafy.global.auth.Roles;
+import com.hanmin.loafy.global.entity.BaseEntity;
+import com.hanmin.loafy.global.security.auth.Roles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

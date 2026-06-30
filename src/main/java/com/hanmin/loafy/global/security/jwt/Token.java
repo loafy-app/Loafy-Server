@@ -1,4 +1,4 @@
-package com.hanmin.loafy.global.jwt;
+package com.hanmin.loafy.global.security.jwt;
 
 import com.hanmin.loafy.domain.member.entity.Member;
 import jakarta.persistence.*;

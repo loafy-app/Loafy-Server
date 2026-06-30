@@ -1,6 +1,5 @@
-package com.hanmin.loafy.global.auth;
+package com.hanmin.loafy.global.security.auth;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

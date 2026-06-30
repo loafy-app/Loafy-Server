@@ -1,4 +1,4 @@
-package com.hanmin.loafy.global.auth;
+package com.hanmin.loafy.global.security.auth;
 
 public enum Roles {
     ROLE_USER,

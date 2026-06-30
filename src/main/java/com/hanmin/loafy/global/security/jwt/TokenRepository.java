@@ -1,4 +1,4 @@
-package com.hanmin.loafy.global.jwt;
+package com.hanmin.loafy.global.security.jwt;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

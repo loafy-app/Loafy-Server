@@ -1,7 +1,7 @@
-package com.hanmin.loafy.global.jwt;
+package com.hanmin.loafy.global.security.jwt;
 
-import com.hanmin.loafy.global.auth.CustomUserDetails;
-import com.hanmin.loafy.global.auth.Roles;
+import com.hanmin.loafy.global.security.auth.CustomUserDetails;
+import com.hanmin.loafy.global.security.auth.Roles;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

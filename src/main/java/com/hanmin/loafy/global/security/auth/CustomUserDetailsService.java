@@ -1,4 +1,4 @@
-package com.hanmin.loafy.global.auth;
+package com.hanmin.loafy.global.security.auth;
 
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
