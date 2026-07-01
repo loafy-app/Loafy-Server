@@ -33,7 +33,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws IOException, ServletException {
         String uri = request.getRequestURI();
-        if (uri.startsWith("/swagger") || uri.startsWith("v3/api-docs")) {
+        if (uri.equals("/favicon.ico") || uri.startsWith("/swagger-ui") || uri.startsWith("/v3/api-docs")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -52,6 +52,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         } catch (ExpiredJwtException e) {
             log.warn("[ JwtAuthorizationFilter ]: 토큰이 만료되었습니다.");
+            SecurityContextHolder.clearContext();
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("AccessToken이 만료되었습니다.");
