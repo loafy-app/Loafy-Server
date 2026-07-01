@@ -1,6 +1,6 @@
 name: Bug Fix Template
 description: 버그 수정 템플릿
-title: "🐛 [Bug] "
+title: "🐛 [Bug]: "
 labels: ["🐛 Bug"]
 
 body:

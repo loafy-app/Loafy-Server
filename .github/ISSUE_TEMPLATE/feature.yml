@@ -1,6 +1,6 @@
 name: Feature Template
 description: 기능 추가 템플릿
-title: "✨ [Feat] "
+title: "✨ [Feat]: "
 labels: ["✨ feature"]
 
 body:
