@@ -19,9 +19,7 @@ public class CustomUserDetailsService {
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         log.info(" [CustomUserDetailsService]: Email을 이용하여 사용자를 검색합니다.");
-
         Optional<Member> userEntity = memberRepository.findByEmail(email);
-
         if (userEntity.isPresent()) {
             Member member = userEntity.get();
             return new CustomUserDetails(member.getEmail(), member.getPassword(), member.getRole());
