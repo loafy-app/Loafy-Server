@@ -2,6 +2,7 @@ package com.hanmin.loafy.global.security.handler;
 
 import com.hanmin.loafy.global.CustomResponse;
 import com.hanmin.loafy.global.code.AuthErrorCode;
+import com.hanmin.loafy.global.code.GeneralErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +22,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType("application/json; charset=UTF-8");
         response.setStatus(401);
         CustomResponse<Object> errorResponse = CustomResponse.onFailure(
-                AuthErrorCode.UNAUTHORIZED_401.getCode(),
-                AuthErrorCode.UNAUTHORIZED_401.getMessage(),
+                GeneralErrorCode.UNAUTHORIZED_401.getCode(),
+                GeneralErrorCode.UNAUTHORIZED_401.getMessage(),
                 null
         );
         ObjectMapper mapper = new ObjectMapper();

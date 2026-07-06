@@ -1,7 +1,7 @@
 package com.hanmin.loafy.global.security.handler;
 
 import com.hanmin.loafy.global.CustomResponse;
-import com.hanmin.loafy.global.code.AuthErrorCode;
+import com.hanmin.loafy.global.code.GeneralErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,8 +20,8 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json; charset=UTF-8");
         response.setStatus(403);
         CustomResponse<Object> errorResponse = CustomResponse.onFailure(
-                AuthErrorCode.FORBIDDEN_403.getCode(),
-                AuthErrorCode.FORBIDDEN_403.getMessage(),
+                GeneralErrorCode.FORBIDDEN_403.getCode(),
+                GeneralErrorCode.FORBIDDEN_403.getMessage(),
                 null
         );
         ObjectMapper mapper = new ObjectMapper();
