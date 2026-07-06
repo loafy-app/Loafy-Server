@@ -63,8 +63,15 @@ public class JwtUtil {
         Instant issuedAt = Instant.now();
         String authorities = customUserDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-        return Jwts.builder().header().add("typ", "JWT").and().subject(customUserDetails.getUsername())
-                .claim("role", authorities).issuedAt(Date.from(issuedAt)).signWith(secretKey).compact();
+        return Jwts.builder()
+                .header().add("typ", "JWT")
+                .and()
+                .subject(customUserDetails.getUsername())
+                .claim("role", authorities)
+                .issuedAt(Date.from(issuedAt))
+                .expiration(Date.from(expiration))
+                .signWith(secretKey)
+                .compact();
     }
 
     public String createJwtAccessToken(CustomUserDetails customUserDetails) {
