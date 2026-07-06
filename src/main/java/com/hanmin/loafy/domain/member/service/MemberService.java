@@ -5,6 +5,7 @@ import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
 import com.hanmin.loafy.global.code.AuthErrorCode;
+import com.hanmin.loafy.global.code.MemberErrorCode;
 import com.hanmin.loafy.global.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,7 @@ public class MemberService {
         Member member = MemberConverter.toMember(request, passwordEncoder);
         if (memberRepository.findByEmail(request.email()).isPresent()) {
             log.info("[ MemberService ]: 이미 존재하는 회원입니다.");
-            throw new MemberException(AuthErrorCode.CONFLICT_409);
+            throw new MemberException(MemberErrorCode.MEMBER_CONFLICT_409);
         }
         else {
             memberRepository.save(member);
