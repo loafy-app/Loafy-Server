@@ -4,7 +4,6 @@ import com.hanmin.loafy.domain.member.converter.MemberConverter;
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
-import com.hanmin.loafy.global.code.AuthErrorCode;
 import com.hanmin.loafy.global.code.MemberErrorCode;
 import com.hanmin.loafy.global.exception.MemberException;
 import lombok.RequiredArgsConstructor;

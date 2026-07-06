@@ -26,7 +26,6 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
 
-
     // 로그인
     public LoginResponse login(LoginRequest request) {
         Member member = memberRepository.findByEmail(request.email())
