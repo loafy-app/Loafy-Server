@@ -44,7 +44,7 @@ public class JwtUtil {
     }
 
     // SignatureException: jwt의 signature값의 불일치로 발생하는 예외
-    public String getEmail(String token) throws SignatureException {
+    public String getEmail(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getSubject();
     }
 
@@ -63,8 +63,15 @@ public class JwtUtil {
         Instant issuedAt = Instant.now();
         String authorities = customUserDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
-        return Jwts.builder().header().add("typ", "JWT").and().subject(customUserDetails.getUsername())
-                .claim("role", authorities).issuedAt(Date.from(issuedAt)).signWith(secretKey).compact();
+        return Jwts.builder()
+                .header().add("typ", "JWT")
+                .and()
+                .subject(customUserDetails.getUsername())
+                .claim("role", authorities)
+                .issuedAt(Date.from(issuedAt))
+                .expiration(Date.from(expiration))
+                .signWith(secretKey)
+                .compact();
     }
 
     public String createJwtAccessToken(CustomUserDetails customUserDetails) {
@@ -111,8 +118,11 @@ public class JwtUtil {
         log.info("[ JwtUtil ]: 토큰의 유효성을 검증합니다.");
         try {
             long seconds = 3 * 60;
-            boolean isExpired  = Jwts.parser().clockSkewSeconds(seconds).verifyWith(secretKey).build()
-                    .parseSignedClaims(token).getPayload().getExpiration().before(new Date());
+            Jwts.parser()
+                    .clockSkewSeconds(seconds)
+                    .verifyWith(secretKey)
+                    .build()
+                    .parseSignedClaims(token);
         } catch (ExpiredJwtException e) {
             log.warn("[ JwtUtil ]: 만료된 JWT 토큰입니다.");
             throw new ExpiredJwtException(null, null, "만료된 JWT 토큰입니다.");

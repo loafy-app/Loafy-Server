@@ -1,10 +1,11 @@
 package com.hanmin.loafy.global.security.handler;
 
 import com.hanmin.loafy.global.CustomResponse;
-import com.hanmin.loafy.global.code.AuthErrorCode;
+import com.hanmin.loafy.global.code.GeneralErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -16,13 +17,13 @@ import java.io.IOException;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authenticationException) throws IOException, ServletException {
+    public void commence(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
+                         @NonNull AuthenticationException authenticationException) throws IOException {
         response.setContentType("application/json; charset=UTF-8");
         response.setStatus(401);
         CustomResponse<Object> errorResponse = CustomResponse.onFailure(
-                AuthErrorCode.UNAUTHORIZED_401.getCode(),
-                AuthErrorCode.UNAUTHORIZED_401.getMessage(),
+                GeneralErrorCode.UNAUTHORIZED_401.getCode(),
+                GeneralErrorCode.UNAUTHORIZED_401.getMessage(),
                 null
         );
         ObjectMapper mapper = new ObjectMapper();

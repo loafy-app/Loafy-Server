@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public enum AuthErrorCode implements BaseErrorCode{
+public enum MemberErrorCode implements BaseErrorCode {
 
-    AUTH_UNAUTHORIZED_401(HttpStatus.UNAUTHORIZED, "AUTH401_0", "이메일 또는 비밀번호가 올바르지 않습니다.");
+    MEMBER_CONFLICT_409(HttpStatus.CONFLICT, "MEMBER409_0", "중복된 회원입니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
