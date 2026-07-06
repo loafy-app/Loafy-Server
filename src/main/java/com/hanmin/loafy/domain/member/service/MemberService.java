@@ -32,7 +32,6 @@ public class MemberService {
         else {
             memberRepository.save(member);
         }
-
     }
 
 }
