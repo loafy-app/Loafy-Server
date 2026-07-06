@@ -11,4 +11,6 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     @Query("SELECT t FROM Token t WhERE t.email = :email")
     Optional<Token> findByEmail(@Param("email") String email);
 
+    boolean existsByEmail(String refreshToken);
+
 }
