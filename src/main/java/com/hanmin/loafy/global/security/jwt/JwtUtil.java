@@ -59,7 +59,6 @@ public class JwtUtil {
     }
 
     public String tokenProvider(CustomUserDetails customUserDetails, Instant expiration) {
-        log.info("[ JwtUtil ]: 토큰을 새로 생성합니다.");
         Instant issuedAt = Instant.now();
         String authorities = customUserDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));

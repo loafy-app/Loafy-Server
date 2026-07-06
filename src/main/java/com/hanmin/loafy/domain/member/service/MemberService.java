@@ -26,7 +26,7 @@ public class MemberService {
         Member member = MemberConverter.toMember(request, passwordEncoder);
         if (memberRepository.findByEmail(request.email()).isPresent()) {
             log.info("[ MemberService ]: 이미 존재하는 회원입니다.");
-            throw new MemberException(MemberErrorCode.MEMBER_CONFLICT_409);
+            throw new MemberException(MemberErrorCode.DUPLICATE_MEMBER);
         }
         else {
             memberRepository.save(member);
