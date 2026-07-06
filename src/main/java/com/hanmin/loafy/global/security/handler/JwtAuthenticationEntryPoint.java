@@ -2,7 +2,6 @@ package com.hanmin.loafy.global.security.handler;
 
 import com.hanmin.loafy.global.CustomResponse;
 import com.hanmin.loafy.global.code.GeneralErrorCode;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
