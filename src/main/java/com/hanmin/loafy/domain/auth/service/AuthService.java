@@ -43,6 +43,10 @@ public class AuthService {
             log.warn(" [ AuthService ]: 로그인 실패 - 비밀번호가 일치하지 않습니다.");
             throw new AuthException(AuthErrorCode.INCORRECT_EMAIL_PASSWORD);
         }
+        if (memberRepository.existsByEmailAndIsDeletedTrue(request.email())) {
+            log.warn("[ AuthService ]: 로그인 실패 - 탈퇴한 사용자입니다.");
+            throw new AuthException(AuthErrorCode.DELETED_MEMBER);
+        }
         String accessToken = jwtUtil.createJwtAccessToken(
                 (CustomUserDetails) customUserDetailsService.loadUserByUsername(member.getEmail()));
         log.info("[ AuthService ]: AccessToken이 생성되었습니다.");
@@ -55,15 +59,26 @@ public class AuthService {
     // 토큰 재발급
     public JwtDTO reissue(JwtDTO request) throws SignatureException {
         String refreshToken = request.jwtRefreshToken();
-        log.info("[ AuthService ]: 사용자 refresh token 추출 완료");
+        log.info("[ AuthService ]: 사용자 RefreshToken 추출 완료");
         if (tokenRepository.existsByEmail(jwtUtil.getEmail(refreshToken))) {
             return jwtUtil.reissueToken(refreshToken);
         }
         else {
-            log.warn("[ AuthService ]: refresh token을 DB에서 찾을 수 없습니다.");
+            log.warn("[ AuthService ]: RefreshToken을 DB에서 찾을 수 없습니다.");
             throw new CustomException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
+    }
 
+    // 로그아웃
+    public void logout(String email) {
+        if (!tokenRepository.existsByEmail(email)) {
+            log.warn("[ AuthService ]: 사용자의 RefreshToken을 DB에서 찾을 수 없습니다.");
+            throw new AuthException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
+        }
+        else {
+            tokenRepository.deleteTokenByEmail(email);
+            log.info("[ AuthService ]: 사용자의 RefreshToken이 삭제되었습니다.");
+        }
     }
 
 }

@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -30,4 +32,20 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Roles role;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    public void withdraw() {
+        isDeleted = true;
+        deletedAt = LocalDateTime.now();
+    }
+
+    public void reactivate() {
+        isDeleted = false;
+        deletedAt = null;
+    }
 }

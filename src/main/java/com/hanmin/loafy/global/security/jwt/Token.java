@@ -1,8 +1,13 @@
 package com.hanmin.loafy.global.security.jwt;
 
-import com.hanmin.loafy.domain.member.entity.Member;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
@@ -17,10 +22,4 @@ public class Token {
 
     @Column(name = "refresh_token")
     private String refreshToken;
-
-    @Setter
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
 }
