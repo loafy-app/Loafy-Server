@@ -15,6 +15,8 @@ public class MemberConverter {
                 .email(request.email())
                 .password(encodedPassword)
                 .role(Roles.ROLE_USER)
+                .isDeleted(false)
+                .deletedAt(null)
                 .build();
     }
 

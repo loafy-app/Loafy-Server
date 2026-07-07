@@ -12,4 +12,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m Where m.email = :email")
     Optional<Member> findByEmail(@Param("email") String email);
 
+    Optional<Member> findByEmailAndIsDeletedFalse(@Param("email") String email);
+
+    boolean existsByEmailAndIsDeletedFalse(@Param("email") String email);
+
+    boolean existsByEmailAndIsDeletedTrue(@Param("email") String email);
+
 }

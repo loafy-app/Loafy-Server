@@ -43,6 +43,10 @@ public class AuthService {
             log.warn(" [ AuthService ]: 로그인 실패 - 비밀번호가 일치하지 않습니다.");
             throw new AuthException(AuthErrorCode.INCORRECT_EMAIL_PASSWORD);
         }
+        if (memberRepository.existsByEmailAndIsDeletedTrue(request.email())) {
+            log.warn("[ AuthService ]: 로그인 실패 - 탈퇴한 사용자입니다.");
+            throw new AuthException(AuthErrorCode.DELETED_MEMBER);
+        }
         String accessToken = jwtUtil.createJwtAccessToken(
                 (CustomUserDetails) customUserDetailsService.loadUserByUsername(member.getEmail()));
         log.info("[ AuthService ]: AccessToken이 생성되었습니다.");
