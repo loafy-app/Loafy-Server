@@ -17,10 +17,4 @@ public class Token {
 
     @Column(name = "refresh_token")
     private String refreshToken;
-
-    @Setter
-    @OneToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
 }
