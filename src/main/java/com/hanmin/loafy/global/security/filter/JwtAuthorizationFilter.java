@@ -67,7 +67,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         log.info("[ JwtAuthorizationFilter ]: AccessToken 유효성 검증 성공");
         String email = jwtUtil.getEmail(accessToken);
         CustomUserDetails customUserDetails = (CustomUserDetails)customUserDetailsService.loadUserByUsername(email);
-        log.info("[ JwtAuthorizationFilter ]: 객체 생성 성공");
         Authentication authToken = new UsernamePasswordAuthenticationToken(
                 customUserDetails,
                 null,

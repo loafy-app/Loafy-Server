@@ -13,4 +13,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
     boolean existsByEmail(String refreshToken);
 
+    
+    void deleteTokenByEmail(String email);
+
 }
