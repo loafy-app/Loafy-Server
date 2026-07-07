@@ -1,7 +1,5 @@
 package com.hanmin.loafy.global.security.jwt;
 
-import com.hanmin.loafy.domain.member.converter.MemberConverter;
-import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.global.security.auth.CustomUserDetails;
 import com.hanmin.loafy.global.security.auth.Roles;
 import io.jsonwebtoken.ExpiredJwtException;
