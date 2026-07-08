@@ -3,6 +3,7 @@ package com.hanmin.loafy.domain.member.service;
 import com.hanmin.loafy.domain.auth.service.AuthService;
 import com.hanmin.loafy.domain.member.converter.MemberConverter;
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
+import com.hanmin.loafy.domain.member.dto.response.InfoResponse;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
 import com.hanmin.loafy.global.code.MemberErrorCode;
@@ -52,6 +53,14 @@ public class MemberService {
         member.withdraw();
         log.info("[ MemberService ]: 사용자 탈퇴 처리가 완료되었습니다.");
         authService.logout(email);
+        log.info("[ MemberService ]: 로그아웃 처리가 완료되었습니다.");
+    }
+
+    // 회원 정보 조회
+    public InfoResponse showMemberInfo(String email) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        return MemberConverter.toInfoResponse(member);
     }
 
 }
