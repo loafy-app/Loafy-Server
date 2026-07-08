@@ -13,6 +13,7 @@ public class MemberConverter {
         String encodedPassword = passwordEncoder.encode(request.password());
         return Member.builder()
                 .email(request.email())
+                .nickname(request.nickname())
                 .password(encodedPassword)
                 .role(Roles.ROLE_USER)
                 .isDeleted(false)
