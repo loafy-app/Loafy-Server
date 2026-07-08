@@ -4,7 +4,6 @@ import com.hanmin.loafy.global.entity.BaseEntity;
 import com.hanmin.loafy.global.security.auth.Roles;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
