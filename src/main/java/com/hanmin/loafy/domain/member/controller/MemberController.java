@@ -1,12 +1,14 @@
 package com.hanmin.loafy.domain.member.controller;
 
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
+import com.hanmin.loafy.domain.member.dto.request.UpdateNicknameRequest;
 import com.hanmin.loafy.domain.member.dto.response.InfoResponse;
 import com.hanmin.loafy.domain.member.service.MemberService;
 import com.hanmin.loafy.global.CustomResponse;
 import com.hanmin.loafy.global.security.auth.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,6 +44,15 @@ public class MemberController {
         String email = userDetails.getUsername();
         InfoResponse infoResponse = memberService.showMemberInfo(email);
         return CustomResponse.onSuccess(infoResponse);
+    }
+
+    @Operation(summary = "닉네임 변경", description = "닉네임 변경 API 입니다.")
+    @PatchMapping("/me/nickname")
+    public CustomResponse<?> updateNickname(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                            UpdateNicknameRequest request) {
+        String email = userDetails.getUsername();
+        memberService.updateNickname(request, email);
+        return CustomResponse.onSuccess("닉네임 변경 완료");
     }
 
 }

@@ -3,6 +3,7 @@ package com.hanmin.loafy.domain.member.service;
 import com.hanmin.loafy.domain.auth.service.AuthService;
 import com.hanmin.loafy.domain.member.converter.MemberConverter;
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
+import com.hanmin.loafy.domain.member.dto.request.UpdateNicknameRequest;
 import com.hanmin.loafy.domain.member.dto.response.InfoResponse;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
@@ -61,6 +62,17 @@ public class MemberService {
         Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toInfoResponse(member);
+    }
+
+    // 닉네임 변경
+    public void updateNickname(UpdateNicknameRequest request, String email) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        if (request.newNickname().equals(member.getNickname())) {
+            throw new MemberException(MemberErrorCode.SAME_NICKNAME);
+        }
+        member.updateNickname(request.newNickname());
+        log.info("[ MemberService ]: 닉네임이 변경되었습니다.");
     }
 
 }

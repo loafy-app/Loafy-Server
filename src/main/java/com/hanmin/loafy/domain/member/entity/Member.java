@@ -51,4 +51,8 @@ public class Member extends BaseEntity {
         isDeleted = false;
         deletedAt = null;
     }
+
+    public void updateNickname(String newNickname) {
+        nickname = newNickname;
+    }
 }

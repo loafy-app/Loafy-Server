@@ -6,7 +6,6 @@ import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.global.security.auth.Roles;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 public class MemberConverter {
 
     // request -> Member
