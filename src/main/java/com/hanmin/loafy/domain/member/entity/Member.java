@@ -3,10 +3,8 @@ package com.hanmin.loafy.domain.member.entity;
 import com.hanmin.loafy.global.entity.BaseEntity;
 import com.hanmin.loafy.global.security.auth.Roles;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -54,5 +52,9 @@ public class Member extends BaseEntity {
 
     public void updateNickname(String newNickname) {
         nickname = newNickname;
+    }
+
+    public void updatePassword(String encodedPassword) {
+        password = encodedPassword;
     }
 }

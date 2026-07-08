@@ -2,6 +2,7 @@ package com.hanmin.loafy.domain.member.controller;
 
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
 import com.hanmin.loafy.domain.member.dto.request.UpdateNicknameRequest;
+import com.hanmin.loafy.domain.member.dto.request.UpdatePasswordRequest;
 import com.hanmin.loafy.domain.member.dto.response.InfoResponse;
 import com.hanmin.loafy.domain.member.service.MemberService;
 import com.hanmin.loafy.global.CustomResponse;
@@ -53,6 +54,15 @@ public class MemberController {
         String email = userDetails.getUsername();
         memberService.updateNickname(request, email);
         return CustomResponse.onSuccess("닉네임 변경 완료");
+    }
+
+    @Operation(summary = "비밀번호 변경", description = "비밀번호 변경 API 입니다.")
+    @PatchMapping("/me/password")
+    public CustomResponse<?> updatePassword(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                            UpdatePasswordRequest request) {
+        String email = userDetails.getUsername();
+        memberService.updatePassword(request, email);
+        return CustomResponse.onSuccess("비밀번호 변경 완료");
     }
 
 }
