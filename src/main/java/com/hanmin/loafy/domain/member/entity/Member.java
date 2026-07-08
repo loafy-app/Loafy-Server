@@ -3,10 +3,7 @@ package com.hanmin.loafy.domain.member.entity;
 import com.hanmin.loafy.global.entity.BaseEntity;
 import com.hanmin.loafy.global.security.auth.Roles;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +22,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "nickname", nullable = false, unique = true)
+    private String nickname;
 
     @Column(name = "password")
     private String password;
@@ -47,5 +47,13 @@ public class Member extends BaseEntity {
     public void reactivate() {
         isDeleted = false;
         deletedAt = null;
+    }
+
+    public void updateNickname(String newNickname) {
+        nickname = newNickname;
+    }
+
+    public void updatePassword(String encodedPassword) {
+        password = encodedPassword;
     }
 }

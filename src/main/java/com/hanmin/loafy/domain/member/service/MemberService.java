@@ -3,6 +3,9 @@ package com.hanmin.loafy.domain.member.service;
 import com.hanmin.loafy.domain.auth.service.AuthService;
 import com.hanmin.loafy.domain.member.converter.MemberConverter;
 import com.hanmin.loafy.domain.member.dto.request.SignupRequest;
+import com.hanmin.loafy.domain.member.dto.request.UpdateNicknameRequest;
+import com.hanmin.loafy.domain.member.dto.request.UpdatePasswordRequest;
+import com.hanmin.loafy.domain.member.dto.response.InfoResponse;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
 import com.hanmin.loafy.global.code.MemberErrorCode;
@@ -52,6 +55,40 @@ public class MemberService {
         member.withdraw();
         log.info("[ MemberService ]: 사용자 탈퇴 처리가 완료되었습니다.");
         authService.logout(email);
+        log.info("[ MemberService ]: 로그아웃 처리가 완료되었습니다.");
+    }
+
+    // 회원 정보 조회
+    public InfoResponse showMemberInfo(String email) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        return MemberConverter.toInfoResponse(member);
+    }
+
+    // 닉네임 변경
+    public void updateNickname(UpdateNicknameRequest request, String email) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        if (request.newNickname().equals(member.getNickname())) {
+            throw new MemberException(MemberErrorCode.SAME_NICKNAME);
+        }
+        member.updateNickname(request.newNickname());
+        log.info("[ MemberService ]: 닉네임이 변경되었습니다.");
+    }
+
+    public void updatePassword(UpdatePasswordRequest request, String email) {
+        Member member = memberRepository.findByEmailAndIsDeletedFalse(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        // 확인용 패스워드 동일 여부 검증
+        if (!request.newPassword().equals(request.newPasswordConfirm())) {
+            throw new MemberException(MemberErrorCode.PASSWORD_MISMATCH);
+        }
+        // 기존의 패스워드와의 동일 여부 검증
+        if (passwordEncoder.matches(request.newPassword(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.PASSWORD_NOT_CHANGED);
+        }
+        member.updatePassword(passwordEncoder.encode(request.newPassword()));
+        log.info("[ MemberService ]: 비밀번호가 변경되었습니다.");
     }
 
 }
