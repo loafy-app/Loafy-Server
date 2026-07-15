@@ -1,0 +1,23 @@
+package com.hanmin.loafy.domain.place.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record PlaceResponse(
+        @JsonProperty("place_name")
+        String placeName,
+
+        @JsonProperty("distance")
+        String distance,
+
+        @JsonProperty("place_url")
+        String placeUrl,
+
+        @JsonProperty("address_name")
+        String addressName,
+
+        @JsonProperty("road_address_name")
+        String roadAddressName,
+
+        @JsonProperty("phone")
+        String phone
+) {}
