@@ -24,7 +24,6 @@ public class CustomUserDetailsService {
             CustomUserDetails customUserDetails = new CustomUserDetails(
                     member.getEmail(), member.getPassword(), member.getRole()
             );
-            log.info("[ CustomUserDetailsService ]: CustomUserDetails가 생성되었습니다.");
             return customUserDetails;
         }
         throw new UsernameNotFoundException("사용자가 존재하지 않습니다.");
