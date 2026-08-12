@@ -38,7 +38,6 @@ public class KakaoLocalClient {
                         .build())
                 .retrieve()
                 .body(KakaoPlaceResponse.class);
-
         log.info("[ KakaoLocalClient ]: 카페 정보 조회 및 파싱 완료");
         return response;
     }

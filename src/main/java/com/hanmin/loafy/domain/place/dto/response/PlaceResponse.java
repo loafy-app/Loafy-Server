@@ -19,5 +19,14 @@ public record PlaceResponse(
         String roadAddressName,
 
         @JsonProperty("phone")
-        String phone
+        String phone,
+
+        // 경도
+        @JsonProperty("x")
+        String x,
+
+        // 위도
+        @JsonProperty("y")
+        String y
+
 ) {}
