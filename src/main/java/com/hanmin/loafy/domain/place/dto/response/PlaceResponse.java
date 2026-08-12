@@ -3,6 +3,9 @@ package com.hanmin.loafy.domain.place.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record PlaceResponse(
+        @JsonProperty("id")
+        String id,
+
         @JsonProperty("place_name")
         String placeName,
 
@@ -19,5 +22,14 @@ public record PlaceResponse(
         String roadAddressName,
 
         @JsonProperty("phone")
-        String phone
+        String phone,
+
+        // 경도
+        @JsonProperty("x")
+        String x,
+
+        // 위도
+        @JsonProperty("y")
+        String y
+
 ) {}
