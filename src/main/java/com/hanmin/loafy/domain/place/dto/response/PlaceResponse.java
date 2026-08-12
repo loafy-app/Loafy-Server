@@ -3,6 +3,9 @@ package com.hanmin.loafy.domain.place.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record PlaceResponse(
+        @JsonProperty("id")
+        String id,
+
         @JsonProperty("place_name")
         String placeName,
 
