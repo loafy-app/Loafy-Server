@@ -10,7 +10,4 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     boolean existsById(@NonNull Long memberId);
     boolean existsByRefreshToken(String refreshToken);
 
-    @Query("select t.memberId from Token t where t.refreshToken = :refreshToken")
-    Long findMemberIdByRefreshToken(String refreshToken);
-
 }
