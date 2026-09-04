@@ -5,12 +5,14 @@ import com.hanmin.loafy.domain.auth.dto.response.LoginResponse;
 import com.hanmin.loafy.domain.member.entity.Member;
 import com.hanmin.loafy.domain.member.repository.MemberRepository;
 import com.hanmin.loafy.global.code.AuthErrorCode;
+import com.hanmin.loafy.global.code.MemberErrorCode;
 import com.hanmin.loafy.global.exception.AuthException;
-import com.hanmin.loafy.global.exception.CustomException;
+import com.hanmin.loafy.global.exception.MemberException;
 import com.hanmin.loafy.global.security.auth.CustomUserDetails;
 import com.hanmin.loafy.global.security.auth.CustomUserDetailsService;
 import com.hanmin.loafy.global.security.jwt.JwtDTO;
 import com.hanmin.loafy.global.security.jwt.JwtUtil;
+import com.hanmin.loafy.global.security.jwt.Token;
 import com.hanmin.loafy.global.security.jwt.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,28 +59,37 @@ public class AuthService {
     }
 
     // 토큰 재발급
+    // TODO: RefreshToken 검증로직 분리 (존재여부와 만료여부를 한 메서드에서 검증하도록 변경)
     public JwtDTO reissue(JwtDTO request) throws SignatureException {
+        // 토큰 파싱
         String refreshToken = request.jwtRefreshToken();
         log.info("[ AuthService ]: 사용자 RefreshToken 추출 완료");
-        if (tokenRepository.existsByEmail(jwtUtil.getEmail(refreshToken))) {
-            return jwtUtil.reissueToken(refreshToken);
+        // 현재 RefreshToken이 DB에 존재하는지 확인
+        if (!tokenRepository.existsByRefreshToken(refreshToken)) {
+            log.warn("[ AuthService ]: 사용자의 RefreshToken을 DB에서 찾을 수 없습니다.");
+            throw new AuthException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
-        else {
-            log.warn("[ AuthService ]: RefreshToken을 DB에서 찾을 수 없습니다.");
-            throw new CustomException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
-        }
+        // 토큰 유효성 검증
+        jwtUtil.validateToken(refreshToken);
+        log.info("[ AuthService ]: 사용자 RefreshToken 유효성 검증 성공");
+
+        // AccessToken 및 RefreshToken 발급
+        return jwtUtil.reissueToken(refreshToken);
     }
 
     // 로그아웃
     public void logout(String email) {
-        if (!tokenRepository.existsByEmail(email)) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        // 현재 RefreshToken이 DB에 존재하는지 확인
+        if (!tokenRepository.existsById(member.getMemberId())) {
             log.warn("[ AuthService ]: 사용자의 RefreshToken을 DB에서 찾을 수 없습니다.");
             throw new AuthException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
-        else {
-            tokenRepository.deleteTokenByEmail(email);
-            log.info("[ AuthService ]: 사용자의 RefreshToken이 삭제되었습니다.");
-        }
+        Token tokenByMemberId = tokenRepository.findTokenByMemberId(member.getMemberId());
+        // 토큰 유효성 검증
+        jwtUtil.validateToken(tokenByMemberId.getRefreshToken());
+        log.info("[ AuthService ]: 사용자 RefreshToken 유효성 검증 성공");
     }
 
 }

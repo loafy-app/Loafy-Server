@@ -1,7 +1,7 @@
 package com.hanmin.loafy.domain.place.dto.request;
 
 public record PlaceSaveRequest(
-        String placeId,
+        String kakaoPlaceId,
         String placeName,
         String distance,
         String placeUrl,

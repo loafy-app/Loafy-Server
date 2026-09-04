@@ -7,7 +7,7 @@ public class PlaceConverter {
 
     public static Place kakaoToPlace(PlaceSaveRequest request) {
         return Place.builder()
-                .placeId(request.placeId())
+                .kakaoPlaceId(request.kakaoPlaceId())
                 .placeName(request.placeName())
                 .addressName(request.addressName())
                 .roadAddressName(request.roadAddressName())
