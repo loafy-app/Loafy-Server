@@ -73,19 +73,8 @@ public class AuthService {
         jwtUtil.validateToken(refreshToken);
         log.info("[ AuthService ]: 사용자 RefreshToken 유효성 검증 성공");
 
-        // refreshToken -> memberId -> member 순서로 차례차례 조회
-        Long memberId = tokenRepository.findMemberIdByRefreshToken(refreshToken);
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
         // AccessToken 및 RefreshToken 발급
-        String accessToken = jwtUtil.createJwtAccessToken(
-                (CustomUserDetails) customUserDetailsService.loadUserByUsername(member.getEmail()));
-        log.info("[ AuthService ]: AccessToken이 생성되었습니다.");
-        String newRefreshToken = jwtUtil.createJwtRefreshToken(
-                (CustomUserDetails) customUserDetailsService.loadUserByUsername(member.getEmail()));
-        log.info("[ AuthService ]: RefreshToken이 생성되었습니다.");
-        return new JwtDTO(accessToken, newRefreshToken);
+        return jwtUtil.reissueToken(refreshToken);
     }
 
     // 로그아웃
