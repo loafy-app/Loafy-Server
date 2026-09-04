@@ -1,9 +1,7 @@
 package com.hanmin.loafy.global.security.jwt;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.hanmin.loafy.domain.member.entity.Member;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +16,14 @@ import lombok.NoArgsConstructor;
 public class Token {
 
     @Id
-    private String email;
+    @Column(name = "member_id")
+    private Long memberId;
 
     @Column(name = "refresh_token")
     private String refreshToken;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 }

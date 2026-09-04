@@ -59,4 +59,5 @@ public class Member extends BaseEntity {
     public void updatePassword(String encodedPassword) {
         password = encodedPassword;
     }
+
 }
