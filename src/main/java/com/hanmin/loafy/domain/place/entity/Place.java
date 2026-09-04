@@ -18,7 +18,6 @@ public class Place extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "place_id")
-    private String placeId;
     private Long placeId;
 
     // 카카오 지도 API에서 자체적으로 다루는 장소 아이디

@@ -24,7 +24,7 @@ public class PlaceService {
     // 위치 정보 저장
     public Place findOrCreatePlace(PlaceSaveRequest request) {
 
-        Optional<Place> place = placeRepository.findPlaceByPlaceId(request.placeId());
+        Optional<Place> place = placeRepository.findPlaceByPlaceId(request.kakaoPlaceId());
 
         if (place.isPresent()) {
             log.info("[ PlaceService ]: DB에 장소 정보가 존재합니다. 장소 정보를 반홥힙니다.");

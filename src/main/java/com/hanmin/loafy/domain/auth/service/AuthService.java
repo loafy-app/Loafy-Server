@@ -93,11 +93,11 @@ public class AuthService {
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         // 현재 RefreshToken이 DB에 존재하는지 확인
-        if (!tokenRepository.existsById(member.getId())) {
+        if (!tokenRepository.existsById(member.getMemberId())) {
             log.warn("[ AuthService ]: 사용자의 RefreshToken을 DB에서 찾을 수 없습니다.");
             throw new AuthException(AuthErrorCode.REFRESH_TOKEN_NOT_FOUND);
         }
-        Token tokenByMemberId = tokenRepository.findTokenByMemberId(member.getId());
+        Token tokenByMemberId = tokenRepository.findTokenByMemberId(member.getMemberId());
         // 토큰 유효성 검증
         jwtUtil.validateToken(tokenByMemberId.getRefreshToken());
         log.info("[ AuthService ]: 사용자 RefreshToken 유효성 검증 성공");

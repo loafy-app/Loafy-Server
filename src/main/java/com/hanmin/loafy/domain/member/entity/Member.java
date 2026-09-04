@@ -20,8 +20,8 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // DB의 auto increment의 역할
-    @Column(name = "id") // DB의 id column과 매핑
-    private Long id;
+    @Column(name = "member_id") // DB의 id column과 매핑
+    private Long memberId;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
