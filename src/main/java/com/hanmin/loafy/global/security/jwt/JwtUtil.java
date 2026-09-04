@@ -1,5 +1,9 @@
 package com.hanmin.loafy.global.security.jwt;
 
+import com.hanmin.loafy.domain.member.entity.Member;
+import com.hanmin.loafy.domain.member.repository.MemberRepository;
+import com.hanmin.loafy.global.code.MemberErrorCode;
+import com.hanmin.loafy.global.exception.MemberException;
 import com.hanmin.loafy.global.security.auth.CustomUserDetails;
 import com.hanmin.loafy.global.security.auth.Roles;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -29,18 +33,20 @@ public class JwtUtil {
     private final Long accessExpMs;
     private final Long refreshExpMs;
     private final TokenRepository tokenRepository;
+    private final MemberRepository memberRepository;
 
     public JwtUtil(
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.token.access-expiration-time}") Long accessExpirationTime,
             @Value("${jwt.token.refresh-expiration-time}") Long refreshExpirationTime,
-            TokenRepository tokenRepo
-    ){
+            TokenRepository tokenRepo,
+            MemberRepository memberRepository){
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8),
                 Jwts.SIG.HS256.key().build().getAlgorithm());
         accessExpMs = accessExpirationTime;
         refreshExpMs = refreshExpirationTime;
         tokenRepository = tokenRepo;
+        this.memberRepository = memberRepository;
     }
 
     // SignatureException: jwt의 signature값의 불일치로 발생하는 예외
@@ -78,14 +84,23 @@ public class JwtUtil {
         return tokenProvider(customUserDetails, expiration);
     }
 
+    /**
+     * 토큰을 생성하고 Member와의 연관관계를 세팅합니다.
+     * TODO: 현재의 방식에서 create-or-update 방식으로 변경
+     */
     public String createJwtRefreshToken(CustomUserDetails customUserDetails) {
         Instant expiration = Instant.now().plusMillis(refreshExpMs);
         String refreshToken = tokenProvider(customUserDetails, expiration);
-        tokenRepository.save(Token.builder()
-                .email(customUserDetails.getUsername())
+        // email을 기반으로 Member 불러오기
+        Member member=  memberRepository.findByEmail(customUserDetails.getUsername())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        // 토큰 생성
+        Token token = Token.builder()
+                .member(member)
                 .refreshToken(refreshToken)
-                .build()
-        );
+                .build();
+        // 토큰 저장
+        tokenRepository.save(token);
         return refreshToken;
     }
 
