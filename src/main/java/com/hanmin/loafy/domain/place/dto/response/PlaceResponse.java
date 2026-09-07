@@ -3,7 +3,9 @@ package com.hanmin.loafy.domain.place.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record PlaceResponse(
-        //
+
+        // 카카오 api 내부적으로 사용하는 id값
+        // DB에서 사용하는 id값과는 별개임
         @JsonProperty("id")
         String kakaoId,
 
